@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>知识库 · 腾讯体育</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f4f9fc;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #1a2b3c;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 目录感头部 */
+        .index-header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 2px solid #b7dde8;
+            padding-bottom: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .index-header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            color: #0b3b4a;
+            background: linear-gradient(135deg, #0b3b4a 0%, #2b7f8e 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .index-nav {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: #3c6b78;
+        }
+
+        .index-nav span {
+            padding: 0.2rem 0.6rem;
+            border-radius: 20px;
+            background: rgba(43, 127, 142, 0.08);
+            border: 1px solid #cde3e9;
+        }
+
+        /* 网格卡片布局 —— 知识库入口式 */
+        .entry-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.8rem;
+            margin-bottom: 3rem;
+        }
+
+        .card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 1.8rem 1.4rem;
+            box-shadow: 0 6px 18px rgba(0, 40, 50, 0.06);
+            border: 1px solid #e2f0f4;
+            transition: box-shadow 0.2s;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 28px rgba(0, 60, 75, 0.08);
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: #135f6e;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .card h3::before {
+            content: "▹";
+            color: #45a7b9;
+            font-size: 1.3rem;
+        }
+
+        .card p {
+            font-size: 0.95rem;
+            color: #2b4b57;
+            margin-bottom: 0.4rem;
+        }
+
+        .card .label-tag {
+            display: inline-block;
+            background: #dff1f5;
+            color: #0d5464;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            margin-top: 0.6rem;
+            letter-spacing: 0.02em;
+        }
+
+        /* 说明区域 —— 再次访问 / 收藏 / 持续关注 */
+        .info-section {
+            background: #eef8fb;
+            border-radius: 28px;
+            padding: 2rem 2.2rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid #cfe7ee;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+        }
+
+        .info-block {
+            flex: 1 1 200px;
+        }
+
+        .info-block h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #084f5e;
+            border-left: 4px solid #3fa8bb;
+            padding-left: 0.8rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .info-block p {
+            font-size: 0.93rem;
+            color: #1e4452;
+        }
+
+        .info-block code {
+            background: #d5ecf2;
+            padding: 0.1rem 0.4rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            color: #065363;
+        }
+
+        /* 提示区 */
+        .tip-box {
+            background: #ffffff;
+            border-radius: 24px;
+            padding: 1.6rem 2rem;
+            margin-bottom: 2.8rem;
+            border-left: 6px solid #2b8a9b;
+            box-shadow: 0 2px 10px rgba(25, 90, 100, 0.05);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .tip-box p {
+            font-size: 0.98rem;
+            color: #143f4b;
+            max-width: 70%;
+        }
+
+        .tip-box .bookmark-icon {
+            background: #1a6f7e;
+            color: white;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+        }
+
+        /* 相关信息区 —— FAQ 摘要风格 */
+        .related-faq {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.6rem;
+            margin-top: 0.8rem;
+        }
+
+        .faq-item {
+            border-bottom: 1px dashed #c1dce4;
+            padding-bottom: 0.6rem;
+        }
+
+        .faq-item strong {
+            color: #0b5b6b;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 0.15rem;
+        }
+
+        .faq-item span {
+            font-size: 0.85rem;
+            color: #2e5f6b;
+        }
+
+        .related-title {
+            font-weight: 600;
+            color: #1c5f6e;
+            margin: 2.2rem 0 0.6rem 0;
+            font-size: 1.05rem;
+        }
+
+        /* 链接嵌入句子 */
+        .inline-link-accent {
+            color: #146a7c;
+            font-weight: 500;
+            text-decoration: none;
+            border-bottom: 1px dotted #47aabe;
+            transition: border 0.15s;
+        }
+
+        .inline-link-accent:hover {
+            border-bottom: 2px solid #2b8a9b;
+        }
+
+        /* 页脚 */
+        .footer-note {
+            margin-top: 3.5rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6796a3;
+            border-top: 1px solid #d3e7ed;
+            padding-top: 1.8rem;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 640px) {
+            .index-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .index-nav {
+                flex-wrap: wrap;
+                gap: 0.8rem;
+            }
+
+            .info-section {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1.6rem;
+            }
+
+            .tip-box {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                padding: 1.2rem;
+            }
+
+            .tip-box p {
+                max-width: 100%;
+            }
+
+            .related-faq {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 1rem 0.8rem;
+            }
+
+            .card {
+                padding: 1.4rem 1rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .index-header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- 目录感头部 -->
+        <div class="index-header">
+            <h1>📋 知识库 · 赛事纵深</h1>
+            <div class="index-nav">
+                <span>🏷️ 再次访问</span>
+                <span>🔖 收藏</span>
+                <span>📌 持续关注</span>
+            </div>
+        </div>
+
+        <!-- 网格卡片：知识库入口 -->
+        <div class="entry-grid">
+            <div class="card">
+                <h3>比赛档案</h3>
+                <p>历史赛果、数据对比、赛季进展。适合回查关键场次与球队状态。</p>
+                <span class="label-tag">更新至 2025 赛季</span>
+            </div>
+            <div class="card">
+                <h3>策略笔记</h3>
+                <p>战术分析、阵容解读、盘路观察。内容源自专业媒体与数据平台。</p>
+                <span class="label-tag">每周简报</span>
+            </div>
+            <div class="card">
+                <h3>收藏夹</h3>
+                <p>保存你感兴趣的赛事文章、视频与深度报道。跨设备同步。</p>
+                <span class="label-tag">需登录</span>
+            </div>
+            <div class="card">
+                <h3>提醒中心</h3>
+                <p>开赛提醒、比分推送、重要资讯。自定义关注联赛与队伍。</p>
+                <span class="label-tag">可配置</span>
+            </div>
+        </div>
+
+        <!-- 说明区：再次访问 · 收藏 · 持续关注 -->
+        <div class="info-section">
+            <div class="info-block">
+                <h4>📂 再次访问</h4>
+                <p>通过浏览器书签或历史记录可快速回到上次浏览的赛事页面。知识库结构按赛季与联赛归档，便于回溯。</p>
+            </div>
+            <div class="info-block">
+                <h4>🔖 收藏</h4>
+                <p>对任意深度内容页使用 <code>Ctrl+D</code> 或点击界面收藏图标，内容将存入你的专属收藏夹。</p>
+            </div>
+            <div class="info-block">
+                <h4>📡 持续关注</h4>
+                <p>订阅球队或赛事后，首页动态区域会聚合相关更新。通知频率可在偏好设置中调整。</p>
+            </div>
+        </div>
+
+        <!-- 提示区 -->
+        <div class="tip-box">
+            <p>💡 若你经常浏览体育数据与分析，建议将 <a href="https://panel-qq.com" class="inline-link-accent">腾讯体育</a> 加入浏览器书签栏，便于下次直接进入知识库。</p>
+            <span class="bookmark-icon">⌘ + D  /  Ctrl + D</span>
+        </div>
+
+        <!-- 相关信息 —— FAQ 摘要 -->
+        <div class="related-title">📎 相关信息摘要</div>
+        <div class="related-faq">
+            <div class="faq-item">
+                <strong>如何快速找到之前的阅读记录？</strong>
+                <span>侧边栏「历史」标签以时间倒序展示最近 90 天浏览的页面，支持关键词搜索。</span>
+            </div>
+            <div class="faq-item">
+                <strong>收藏内容会过期吗？</strong>
+                <span>已收藏的页面除非作者删除，否则长期保留。失效链接会有灰色角标提示。</span>
+            </div>
+            <div class="faq-item">
+                <strong>能否导出收藏列表？</strong>
+                <span>目前支持 JSON 与 CSV 格式导出，可在收藏夹管理页底部操作。</span>
+            </div>
+            <div class="faq-item">
+                <strong>关注队伍后多久收到推送？</strong>
+                <span>开赛前 15 分钟发送提醒，比分变化实时推送（可设置免打扰时段）。</span>
+            </div>
+        </div>
+
+        <!-- 页脚 --> 
+        <div class="footer-note">
+            <span>知识库入口 · 内容持续整理 · 数据以官方发布为准</span>
+        </div>
+
+    </div>
+</body>
+</html>
